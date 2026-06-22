@@ -14,8 +14,16 @@ permissions:
 
 jobs:
   docker:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ matrix.runner }}
     if: github.event.pull_request.head.repo.fork == false
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-24.04
+          - platform: linux/arm64
+            runner: ubuntu-24.04-arm
 
     steps:
       - name: Checkout
